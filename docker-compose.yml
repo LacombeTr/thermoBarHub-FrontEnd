@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  angular-app:
+    build: .
+    container_name: angular-lts
+    ports:
+      - "4200:4200"           # Exposer le port 4200 pour accéder à Angular via localhost
+    volumes:
+      - .:/usr/src/app        # Synchroniser le code local avec le conteneur
+      - /usr/src/app/node_modules  # Eviter les conflits de node_modules
+    stdin_open: true
+    tty: true
