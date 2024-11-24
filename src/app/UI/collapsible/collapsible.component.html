@@ -1,0 +1,8 @@
+<div class="flex flex-col justify-center py-4 px-2 border-t-[1px] border-neutral-300">
+    <div class="titleCard flex justify-between cursor-pointer" (click)="collapsible($event)">
+        <h4 class="text-lg font-semibold text-neutral-600">{{cardTitle}}</h4><i class="fa-solid fa-plus text-amber-700"></i>
+    </div>
+    <div class="bodyCard hidden pt-2 px-2">
+        <p class="text-neutral-600">{{cardBody}}</p>
+    </div>
+</div>

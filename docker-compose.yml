@@ -1,8 +1,7 @@
 version: '3.8'
 services:
-  angular-app:
+  frontend-angular18:
     build: .
-    container_name: angular-lts
     ports:
       - "4200:4200"           # Exposer le port 4200 pour accéder à Angular via localhost
     volumes:

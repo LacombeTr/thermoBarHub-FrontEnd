@@ -1,0 +1,15 @@
+<div class="flex flex-col items-center h-full p-4 bg-white border-neutral-200 border-[1px] rounded-md shadow-md">
+
+    <h2 class="mb-4 text-4xl font-medium text-neutral-700 pb-2 border-b-[1px] border-neutral-200">{{componentTitle}} composition</h2>
+    
+    <form class="flex flex-col w-full h-full justify-between">
+        
+        <div class="flex flex-col justify-start items-center pb-2">
+            <app-input-fields *ngFor="let element of elementArray" labelInput={{element}} units="wt." class="flex"></app-input-fields>
+        </div>
+
+        <div class="flex w-full pt-4 border-t-[1px] border-neutral-200">
+            <button type="submit" class= "h-10 w-full rounded-lg bg-gradient-to-b from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-neutral-100 text-lg ">Validate composition</button>
+        </div>
+    </form>
+</div>
