@@ -1,59 +1,76 @@
-import { Component, OnInit } from '@angular/core';
-
-import { equationList, equationStruct } from '../../data/equations';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as XLSX from 'xlsx';
 
-import {
-  CalculationAPIService,
-  InputCalc,
-} from '../../services/calculation-api.service';
+import { postParameters} from '../../services/calculation-api.service';
+
+import {roundDictValues} from "../../utils/utils";
+import {equationList, equationStruct} from '../../data/equations';
+import { excelData, calculationParameters } from "../../models";
 
 @Component({
   selector: 'app-submit-compos',
   templateUrl: './submit-compos.component.html',
 })
+
 export class SubmitComposComponent implements OnInit {
+
+  // Arguments of the request sent for the calculations
   iterative: boolean = false;
-  useSpreadSheet: boolean = false;
   system: string = '';
-  choosenEquations: string[] = [];
-  dataString!: string;
+  phases!: string[];
+  equationP: string | null = null;
+  equationT: string | null = null;
+  pDependant: boolean = false;
+  tDependant: boolean = false;
+  h2oDependant: boolean = false;
+  pressure!: number;
+  temperature!: number;
+  h2o!: number;
+  excelData!: excelData[];
+
+  /**
+   * @param equations whole list of available equations
+   * @param eqListPT equations requiring iterations between P and T
+   * @param eqListP equations requiring only P
+   * @param eqListT equations requiring only T
+   */
   equations: equationStruct[] = equationList;
   eqListPT: any;
   eqListP: any;
   eqListT: any;
-  equationP: string | null = null;
-  equationT: string | null = null;
-  h2o!: number;
-  phases!: string[];
-  pressure!: number;
+
+  /**
+   * Fields state from step2
+   */
   pDisabled: boolean = true;
   tDisabled: boolean = true;
   h2oDisabled: boolean = true;
-  pDependant: boolean = false;
-  tDependant: boolean = false;
-  h2oDependant: boolean = false;
-  inputCompo: any;
-  temperature!: number;
-  selectedFile!: File;
-  submitCompo!: FormGroup<any>;
-  dataColumns: string[] = [];
-  dataList: any[] = [];
 
-  inputCalc!: InputCalc;
-  response: InputCalc | null = null;
+  submitCompo!: FormGroup<any>;
+
+  dataList: any[] = [];
+  dataColumns: string[] = [];
+
+  inputCalc!: calculationParameters;
+  response: calculationParameters | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private calculationAPIService: CalculationAPIService
+    private postParameters: postParameters
   ) {}
 
-  objectKeys(obj: any): string[] {
+  protected roundDictValues = roundDictValues;
+
+  protected objectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
 
   ngOnInit() {
+
+    /**
+     * Initialize the submitCompo object
+     */
     this.submitCompo = this.formBuilder.group({
       iterative: [false, Validators.required],
       system: '',
@@ -61,10 +78,14 @@ export class SubmitComposComponent implements OnInit {
       equation: [['']],
       pressure: 0,
       temperature: 0,
-      data: '',
+      data: null,
     });
   }
 
+  /**
+   * Function to select which phase will be selected
+   * @param event
+   */
   selectPhases(event: Event) {
     let target = event.target as HTMLSelectElement;
     this.system = target.value;
@@ -75,19 +96,19 @@ export class SubmitComposComponent implements OnInit {
 
     this.eqListT = this.equations.filter(
       (equation) =>
-        equation.phases.includes(target.value) &&
-        equation.pDependant === true &&
-        equation.tDependant === false
+        equation.phases.includes(target.value) && equation.pDependant && !equation.tDependant
     );
 
     this.eqListP = this.equations.filter(
       (equation) =>
-        equation.phases.includes(target.value) &&
-        equation.tDependant === true &&
-        equation.pDependant === false
+        equation.phases.includes(target.value) && equation.tDependant && !equation.pDependant
     );
   }
 
+  /**
+   * Check if the selected equation set require iterative calculations, if yes disable P, T and H2O fields
+   * @param event
+   */
   isIterative(event: Event) {
     this.pressure = NaN;
     this.temperature = NaN;
@@ -98,12 +119,7 @@ export class SubmitComposComponent implements OnInit {
     this.h2oDisabled = true;
 
     let targetElem = event.target as HTMLInputElement;
-    let checked = targetElem.checked;
-    if (!checked) {
-      this.iterative = false;
-    } else {
-      this.iterative = true;
-    }
+    this.iterative = targetElem.checked;
   }
 
   selectEquation(event: any) {
@@ -125,33 +141,33 @@ export class SubmitComposComponent implements OnInit {
       this.equationT = selectedEquation?.equationNumber;
     }
 
-    if (this.iterative === false) {
-      if (selectedEquation!.pDependant === false) {
+    if (!this.iterative) {
+      if (!selectedEquation!.pDependant) {
         this.pDisabled = true;
       } else {
         this.pDisabled = false;
 
-        if (this.pDependant === false) {
+        if (!this.pDependant) {
           this.pDependant = true;
         }
       }
 
-      if (selectedEquation!.tDependant === false) {
+      if (!selectedEquation!.tDependant) {
         this.tDisabled = true;
       } else {
         this.tDisabled = false;
 
-        if (this.tDependant === false) {
+        if (!this.tDependant) {
           this.tDependant = true;
         }
       }
 
-      if (selectedEquation!.h2oDependant === false) {
+      if (!selectedEquation!.h2oDependant) {
         this.h2oDisabled = true;
       } else {
         this.h2oDisabled = false;
 
-        if (this.h2oDependant === false) {
+        if (!this.h2oDependant) {
           this.h2oDependant = true;
         }
       }
@@ -176,39 +192,20 @@ export class SubmitComposComponent implements OnInit {
     this.h2o = +targetElem.value;
   }
 
-  prepareXslx(ev: any) {
-    let workBook: any = null;
-    let jsonData = null;
+  prepareXslx(event: any) {
+    const file = event.target.files[0];
     const reader = new FileReader();
-    const file = ev.target.files[0];
-    reader.onload = () => {
-      const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
-      jsonData = workBook.SheetNames.reduce((initial: any, name: string) => {
-        const sheet = workBook.Sheets[name];
-        initial[name] = XLSX.utils.sheet_to_json(sheet);
-        return initial;
-      }, {});
 
-      this.rounder(jsonData);
-      this.dataString = JSON.stringify(jsonData);
-
-      this.dataColumns = Object.keys(jsonData[Object.keys(jsonData)[0]][0]);
-      this.dataList = jsonData[Object.keys(jsonData)[0]];
+    reader.onload = (e: any) => {
+      const file = XLSX.read(e.target.result, { type: 'binary' });
+      const firstSheet = file.SheetNames[0];
+      const worksheet = file.Sheets[firstSheet];
+      this.excelData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+      this.dataColumns = Object.keys(this.excelData[0]);
+      this.dataList = this.excelData;
+      console.log(this.dataColumns);
     };
     reader.readAsArrayBuffer(file);
-  }
-
-  rounder(data: any) {
-    Object.keys(data).forEach((sheetName) => {
-      data[sheetName].forEach((obj: any) => {
-        for (let key in obj) {
-          if (typeof obj[key] === 'number') {
-            obj[key] = parseFloat(obj[key].toFixed(2));
-          }
-        }
-      });
-    });
   }
 
   submitCompos() {
@@ -224,19 +221,25 @@ export class SubmitComposComponent implements OnInit {
       pressure: this.pressure,
       temperature: this.temperature,
       h2o: this.h2o,
-      data: this.dataString,
+      data: this.excelData,
     };
+
+    console.log(typeof this.inputCalc.data);
 
     console.log(this.inputCalc);
 
-    this.calculationAPIService.createInputCalc(this.inputCalc).subscribe(
-      (data) => {
-        this.response = data;
-        console.log('Response from server:', this.response); // Ajout de console.log pour afficher la réponse
-        this.dataList = [this.response.data];
-      },
-      (error) => {
-        console.error('There was an error!', error);
+    this.postParameters.createInputCalc(this.inputCalc).subscribe(
+      {
+        next: (data) =>
+              {
+                this.response = data;
+                console.log('Response from server:', this.response);
+                this.dataList = [this.response.data];
+              },
+
+        error: (error) => console.error('There was an error!', error),
+
+        complete: () => console.info('complete')
       }
     );
   }

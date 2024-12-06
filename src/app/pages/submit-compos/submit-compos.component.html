@@ -24,39 +24,39 @@
                         <option value="Gt">Garnet</option>
                         <option value="Liq">Liquid</option>
                     </select>
-                    
+
                     <!-- Step 1b - Method selection -->
                     <div class="flex items-center">
                         <input type='checkbox' class="form-checkbox mr-4 border-neutral-400 rounded appearance-none hover:checked:bg-amber-600 checked:bg-amber-600 shadow-md" (change)="isIterative($event)" required> <p>calculate P and T iteratively ?</p>
                     </div>
-                    
+
                     <!-- Step 1c - Equation selection -->
-                    
+
                     <select *ngIf="!iterative" class="form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)" required>
                         <option *ngIf="system === ''" value="">Please select a system</option>
                         <option *ngIf="system !== ''" value="">Choose an equation</option>
                         <option *ngFor="let equation of eqListPT " value="{{equation.equationNumber}}">{{equation.name}}</option>
                     </select>
-                    
+
                     <div *ngIf="iterative" class="flex flex-col">
                         <select class="mb-2 form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)">
                             <option *ngIf="system === ''" value="">Please select a system</option>
                             <option *ngIf="system !== ''" value="">Choose an equation for T</option>
-                            <option *ngFor="let equation of eqListT" value="{{equation.equationNumber}}">{{equation.name}}</option>  
+                            <option *ngFor="let equation of eqListT" value="{{equation.equationNumber}}">{{equation.name}}</option>
                         </select>
 
                         <select class="form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)">
                             <option *ngIf="system === ''" value="">Please select a system</option>
                             <option *ngIf="system !== ''" value="">Choose an equation for P</option>
-                            <option *ngFor="let equation of eqListP" value="{{equation.equationNumber}}">{{equation.name}}</option>  
+                            <option *ngFor="let equation of eqListP" value="{{equation.equationNumber}}">{{equation.name}}</option>
                         </select>
-                    </div>  
+                    </div>
                 </div>
             </div>
 
             <!-- Step 2 - P - T conditions -->
             <div id="step2" class="grid grid-cols-2 gap-4 min-h-[50vh] my-4 px-4 py-16 bg-white w-[90vw] rounded-sm border-[1px] border-neutral-200 shadow-md">
-            
+
                 <div class="flex flex-col justify-center pl-16 pr-24">
                     <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Step 2</h4>
                     <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">P - T - H₂O conditions</h3>
@@ -69,7 +69,7 @@
                         <label class="my-4 text-lg font-light text-neutral-400">Pressure (in kbar)</label>
                         <input (change)="getPressure($event)" type='number' id="pressure" name="pressure" placeholder="in kbar" class="h-7 w-32 px-2 outline-none my-1 border-[1px] rounded-sm focus-within:border-amber-600 hover:border-amber-600 bg-neutral-100 focus:ring-transparent disabled:border-neutral-300 disabled:hover:border-neutral-300 disabled:bg-neutral-100 disabled:placeholder:text-neutral-300" [disabled]="pDisabled">
                     </div>
-                
+
                     <div class="flex flex-col items-center">
                         <label class="my-4 text-lg font-light text-neutral-400">Temperature (in K)</label>
                         <input (change)="getTemperature($event)" type='number' id="temperature" name="temperature" placeholder="in K" class="h-7 w-32 px-2 outline-none my-1 border-[1px] rounded-sm focus-within:border-amber-600 hover:border-amber-600 bg-neutral-100 focus:ring-transparent disabled:border-neutral-300 disabled:hover:border-neutral-300 disabled:bg-neutral-100 disabled:placeholder:text-neutral-300" [disabled]="tDisabled">
@@ -85,7 +85,7 @@
             <!-- Step 3 - Data upload selection -->
 
             <div id="step3" class="grid grid-cols-2 gap-4 my-4 px-4 py-16 bg-white w-[90vw] rounded-sm border-[1px] border-neutral-200 shadow-md">
-            
+
                 <div class="flex flex-col justify-center pl-16 pr-24">
                     <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Step 3</h4>
                     <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Enter the required compositions</h3>
@@ -105,7 +105,7 @@
             <!-- Step 4 - data visualization -->
 
             <div id="step4" class="grid grid-row-2 gap-4 my-4 px-4 py-16 bg-white w-[90vw] rounded-sm border-[1px] border-neutral-200 shadow-md">
-            
+
                 <div class="flex flex-col items-center justify-center pl-16 pr-24">
                     <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Step 4</h4>
                     <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Check your data</h3>
@@ -116,16 +116,21 @@
                     <div class="h-[50vw] max-sm:h-[50vh] w-[95%] p-8 bg-neutral-50 rounded-md shadow-inner overflow-hidden">
                         <div class="h-full w-full overflow-scroll">
                             <div id="titles" [ngStyle]="{'display': 'grid', 'grid-template-columns': 'repeat(' + dataColumns.length + ', 200px)'}">
-                                <p *ngFor="let col of dataColumns" class="flex items-center justify-center px-4 pb-2 border-b-[1px] border-neutral-300 font-semibold text-neutral-600 text-center sticky">{{col}}</p>
+                                <p *ngFor="let col of dataColumns" class="flex items-center justify-center px-4 pb-2 border-b-[1px] border-neutral-300 font-semibold text-neutral-600 text-center sticky">
+                                  {{col}}
+                                </p>
                             </div>
+
                             <div id="content" *ngFor="let row of dataList" [ngStyle]="{'display': 'grid', 'grid-template-columns': 'repeat(' + dataColumns.length + ', 200px)'}">
-                                <p *ngFor="let value of objectKeys(row)" class="flex items-center justify-center  px-4 py-2 border-b-[1px] border-neutral-200 text-neutral-600 text-center overflow-hidden">{{ row[value] }}</p>
+                                <p class="flex items-center justify-center  px-4 py-2 border-b-[1px] border-neutral-200 text-neutral-600 text-center overflow-hidden" *ngFor="let value of objectKeys(row)" >
+                                  {{ roundDictValues(row[value]) }}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Step 5 - Sending data to BackEnd -->
 
             <button type="submit" class= "w-auto my-8 py-2 px-8 rounded-lg bg-gradient-to-b from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-neutral-100 font-light text-2xl shadow-md">Send for calculations</button>
