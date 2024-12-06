@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SubmitComposComponent } from './Pages/submit-compos/submit-compos.component';
-import { AppComponent } from './app.component';
-import { HeroPageComponent } from './Pages/hero-page/hero-page.component';
-import { DocumentationComponent } from './Pages/documentation/documentation.component';
+import { SubmitComposComponent } from './pages/submit-compos/submit-compos.component';
+import { HeroPageComponent } from './pages/hero-page/hero-page.component';
+import { DocumentationComponent } from './pages/documentation/documentation.component';
 
 const routes: Routes = [
   { path: '', component: HeroPageComponent },

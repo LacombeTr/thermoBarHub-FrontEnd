@@ -6,19 +6,20 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BannerComponent } from './UI/banner/banner.component';
 import { DataInputComponent } from './UI/data-input/data-input.component';
-import { HeroPageComponent } from './Pages/hero-page/hero-page.component';
+import { HeroPageComponent } from './pages/hero-page/hero-page.component';
 import { WhyUsComponent } from './UI/why-us/why-us.component';
 import { SolidFormComponent } from './UI/solid-form/solid-form.component';
-import { SubmitComposComponent } from './Pages/submit-compos/submit-compos.component';
+import { SubmitComposComponent } from './pages/submit-compos/submit-compos.component';
 import { InputFieldsComponent } from './UI/input-fields/input-fields.component';
-import { ElementDressingPipe } from './pipes/element-dressing.pipe';
+import { ElementDressingPipe } from './pipes/element-dressing/element-dressing.pipe';
 import { CreditsComponent } from './UI/credits/credits.component';
-import { DocumentationComponent } from './Pages/documentation/documentation.component';
+import { DocumentationComponent } from './pages/documentation/documentation.component';
 import { CollapsibleComponent } from './UI/collapsible/collapsible.component';
 
 @NgModule({
@@ -36,7 +37,7 @@ import { CollapsibleComponent } from './UI/collapsible/collapsible.component';
     DocumentationComponent,
     CollapsibleComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule, CommonModule],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })
