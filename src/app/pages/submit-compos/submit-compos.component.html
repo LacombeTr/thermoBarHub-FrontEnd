@@ -1,5 +1,5 @@
 <div class="relative p-36">
-    <form class="flex flex-col" [formGroup]="submitCompo" (ngSubmit)="submitCompos()">
+    <form class="flex flex-col" [formGroup]="submitCompo" (ngSubmit)="postCompos()">
         <div class="flex flex-col min-h-screen items-center justify-center pt-32 m-8 mt-0">
 
             <!-- Step 1a - Phase selection -->
@@ -17,7 +17,7 @@
                         <option value="">Select a system</option>
                         <option value="Cpx">Clinopyroxene</option>
                         <option value="Opx">Orthopyroxene</option>
-                        <option value="Amph">Amphibole</option>
+                        <option value="Amp">Amphibole</option>
                         <option value="Plag">Plagioclase</option>
                         <option value="Kspar">Alkali feldspar</option>
                         <option value="Ol">Olivine</option>
@@ -35,21 +35,57 @@
                     <select *ngIf="!iterative" class="form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)" required>
                         <option *ngIf="system === ''" value="">Please select a system</option>
                         <option *ngIf="system !== ''" value="">Choose an equation</option>
-                        <option *ngFor="let equation of eqListPT " value="{{equation.equationNumber}}">{{equation.name}}</option>
+                        <option *ngFor="let equation of eqListPT " value="{{equation.equationNumber}}">
+                          <ng-container *ngFor="let phase of equation.phases"> {{phase}} </ng-container> - {{equation.name}}
+                        </option>
                     </select>
 
                     <div *ngIf="iterative" class="flex flex-col">
                         <select class="mb-2 form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)">
                             <option *ngIf="system === ''" value="">Please select a system</option>
                             <option *ngIf="system !== ''" value="">Choose an equation for T</option>
-                            <option *ngFor="let equation of eqListT" value="{{equation.equationNumber}}">{{equation.name}}</option>
+                            <option *ngFor="let equation of eqListT" value="{{equation.equationNumber}}">
+                              <ng-container *ngFor="let phase of equation.phases"> {{phase}} </ng-container> - {{equation.name}}
+                            </option>
                         </select>
 
                         <select class="form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)">
                             <option *ngIf="system === ''" value="">Please select a system</option>
                             <option *ngIf="system !== ''" value="">Choose an equation for P</option>
-                            <option *ngFor="let equation of eqListP" value="{{equation.equationNumber}}">{{equation.name}}</option>
+                            <option *ngFor="let equation of eqListP" value="{{equation.equationNumber}}">
+                              <ng-container *ngFor="let phase of equation.phases"> {{phase}} </ng-container> - {{equation.name}}
+                            </option>
                         </select>
+                    </div>
+
+                    <div>
+                      <h3 class="pt-2 pb-4 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Calculation parameters summary</h3>
+                      <p class="ml-8">
+                        <span class="font-semibold"> Phases:</span>
+                        <span *ngIf="!phases"> - </span>
+                        <span *ngFor="let phase of phases; let i = index" class="italic">
+                          <ng-container> {{ phase }} </ng-container>
+                          <ng-container *ngIf="i < phases.length - 1 "> - </ng-container>
+                        </span>
+                      </p>
+
+                      <div class="ml-8">
+                        <p class="font-semibold">Iterative: <span>{{iterative}}</span> </p>
+                      </div>
+
+                      <div class="ml-8">
+                        <p class="font-semibold">Equations:</p>
+                        <ul *ngIf="equationT || equationP" class="ml-4 italic">
+                          <li *ngIf="equationT">
+                            <ng-container> Equation T: {{equationT}} </ng-container>
+                          </li>
+
+                          <li *ngIf="equationP">
+                            <ng-container> Equation P: {{equationP}} </ng-container>
+                          </li>
+                        </ul>
+                      </div>
+
                     </div>
                 </div>
             </div>

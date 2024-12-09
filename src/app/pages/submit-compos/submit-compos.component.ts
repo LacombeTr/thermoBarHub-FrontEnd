@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
+
 import * as XLSX from 'xlsx';
 
 import { postParameters} from '../../services/calculation-api.service';
-
-import {roundDictValues} from "../../utils/utils";
 import {equationList, equationStruct} from '../../data/equations';
 import { excelData, calculationParameters } from "../../models";
+import {roundDictValues} from "../../utils/utils";
 
 @Component({
   selector: 'app-submit-compos',
@@ -57,7 +59,8 @@ export class SubmitComposComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private postParameters: postParameters
+    private postParameters: postParameters,
+    private http: HttpClient, private router: Router
   ) {}
 
   protected roundDictValues = roundDictValues;
@@ -208,7 +211,7 @@ export class SubmitComposComponent implements OnInit {
     reader.readAsArrayBuffer(file);
   }
 
-  submitCompos() {
+  postCompos() {
     this.inputCalc = {
       iterative: this.iterative,
       system: this.system,
@@ -234,7 +237,8 @@ export class SubmitComposComponent implements OnInit {
               {
                 this.response = data;
                 console.log('Response from server:', this.response);
-                this.dataList = [this.response.data];
+
+                this.router.navigate(['/']);
               },
 
         error: (error) => console.error('There was an error!', error),
