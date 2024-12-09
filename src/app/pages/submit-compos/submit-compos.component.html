@@ -157,8 +157,8 @@
                             </div>
 
                             <div id="content" *ngFor="let row of dataList" [ngStyle]="{'display': 'grid', 'grid-template-columns': 'repeat(' + dataColumns.length + ', 200px)'}">
-                                <p class="flex items-center justify-center  px-4 py-2 border-b-[1px] border-neutral-200 text-neutral-600 text-center overflow-hidden" *ngFor="let value of objectKeys(row)" >
-                                  {{ roundDictValues(row[value]) }}
+                                <p class="flex items-center justify-center px-4 py-2 border-b-[1px] border-neutral-200 text-neutral-600 text-center overflow-hidden" *ngFor="let value of objectKeys(row)" >
+                                  {{ row[value] }}
                                 </p>
                             </div>
                         </div>

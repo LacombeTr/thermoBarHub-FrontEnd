@@ -11,3 +11,7 @@ export function roundDictValues(value: string | number): number | string {
     return value
   }
 }
+
+export function objectKeys(obj: any): string[] {
+  return Object.keys(obj);
+}
