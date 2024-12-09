@@ -126,6 +126,9 @@ export class SubmitComposComponent implements OnInit {
   }
 
   selectEquation(event: any) {
+
+    this.resetFields();
+
     this.pressure = NaN;
     this.temperature = NaN;
     this.h2o = NaN;
@@ -178,6 +181,22 @@ export class SubmitComposComponent implements OnInit {
       this.pDisabled = true;
       this.tDisabled = true;
     }
+  }
+
+  resetFields(){
+    let temperatureField = document.getElementById("temperature") as HTMLInputElement;
+    let pressureField = document.getElementById("pressure") as HTMLInputElement;
+    let H2OField = document.getElementById("h2o") as HTMLInputElement;
+
+    temperatureField!.value = '';
+    pressureField!.value = '';
+    H2OField!.value = '';
+
+    temperatureField!.disabled;
+    pressureField!.disabled;
+    H2OField!.disabled;
+
+
   }
 
   getTemperature(event: Event) {
