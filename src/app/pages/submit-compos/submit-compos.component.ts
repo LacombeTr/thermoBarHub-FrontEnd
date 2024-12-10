@@ -8,7 +8,7 @@ import * as XLSX from 'xlsx';
 import { postParameters} from '../../services/calculation-api.service';
 import {equationList, equationStruct} from '../../data/equations';
 import { excelData, calculationParameters } from "../../models";
-import {roundDictValues} from "../../utils/utils";
+import {objectKeys, roundDictValues} from "../../utils/utils";
 
 @Component({
   selector: 'app-submit-compos',
@@ -64,10 +64,6 @@ export class SubmitComposComponent implements OnInit {
   ) {}
 
   protected roundDictValues = roundDictValues;
-
-  protected objectKeys(obj: any): string[] {
-    return Object.keys(obj);
-  }
 
   ngOnInit() {
 
@@ -225,7 +221,6 @@ export class SubmitComposComponent implements OnInit {
       this.excelData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.dataColumns = Object.keys(this.excelData[0]);
       this.dataList = this.excelData;
-      console.log(this.dataColumns);
     };
     reader.readAsArrayBuffer(file);
   }
@@ -246,18 +241,17 @@ export class SubmitComposComponent implements OnInit {
       data: this.excelData,
     };
 
-    console.log(typeof this.inputCalc.data);
-
-    console.log(this.inputCalc);
-
     this.postParameters.createInputCalc(this.inputCalc).subscribe(
       {
         next: (data) =>
               {
-                this.response = data;
-                console.log('Response from server:', this.response);
-
-                this.router.navigate(['/']);
+                this.router.navigate(['/thermobarometry-response'],
+                  {
+                    state: {
+                      calculationResponse: data
+                    }
+                  }
+                )
               },
 
         error: (error) => console.error('There was an error!', error),
@@ -266,4 +260,7 @@ export class SubmitComposComponent implements OnInit {
       }
     );
   }
+
+  protected readonly Object = Object;
+  protected readonly objectKeys = objectKeys;
 }
