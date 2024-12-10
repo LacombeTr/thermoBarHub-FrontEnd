@@ -21,6 +21,7 @@ import { ElementDressingPipe } from './pipes/element-dressing/element-dressing.p
 import { CreditsComponent } from './UI/credits/credits.component';
 import { DocumentationComponent } from './pages/documentation/documentation.component';
 import { CollapsibleComponent } from './UI/collapsible/collapsible.component';
+import {DataVisualiserComponent} from "./UI/data-visualiser/data-visualiser.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { CollapsibleComponent } from './UI/collapsible/collapsible.component';
     DocumentationComponent,
     CollapsibleComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule, CommonModule],
+    imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule, CommonModule, DataVisualiserComponent],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })

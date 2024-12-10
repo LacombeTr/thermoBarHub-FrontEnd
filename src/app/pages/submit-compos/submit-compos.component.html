@@ -147,23 +147,8 @@
                     <p class="py-2 font-light text-neutral-400">Please verify that your data are as you expect them to be.</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center">
-                    <div class="h-[50vw] max-sm:h-[50vh] w-[95%] p-8 bg-neutral-50 rounded-md shadow-inner overflow-hidden">
-                        <div class="h-full w-full overflow-scroll">
-                            <div id="titles" [ngStyle]="{'display': 'grid', 'grid-template-columns': 'repeat(' + dataColumns.length + ', 200px)'}">
-                                <p *ngFor="let col of dataColumns" class="flex items-center justify-center px-4 pb-2 border-b-[1px] border-neutral-300 font-semibold text-neutral-600 text-center sticky">
-                                  {{col}}
-                                </p>
-                            </div>
+              <app-data-visualiser [dataColumns]="dataColumns" [dataList]="dataList"></app-data-visualiser>
 
-                            <div id="content" *ngFor="let row of dataList" [ngStyle]="{'display': 'grid', 'grid-template-columns': 'repeat(' + dataColumns.length + ', 200px)'}">
-                                <p class="flex items-center justify-center px-4 py-2 border-b-[1px] border-neutral-200 text-neutral-600 text-center overflow-hidden" *ngFor="let value of objectKeys(row)" >
-                                  {{ row[value] }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Step 5 - Sending data to BackEnd -->
