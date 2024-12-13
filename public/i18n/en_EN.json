@@ -63,7 +63,7 @@
   "templatePresentation": "These templates work as it follow:",
   "templateColumnNames": "Each column correspond to the concentration (in wt.%) of an oxyde in the considered phase as <i>\"(oxyde)_(phase)\"</i> for example, concentration of Na₂O in Clinopyroxene is given as <i>\"Na₂O_Cpx\"</i>",
   "templateSampleNames": "You can keep your sample name by adding a <i>\"Sample_ID_(phase)\"</i> column.",
-  "templateAnyColumns": "You can add whatever column you want but if you want to keep them paired with your samples don't forget to add <i>\"..._(phase)\"</i> after its name. (example: <i>\"Rock type\"</i> become <i>\"Rock type_cpx\"</i>)"
+  "templateAnyColumns": "You can add whatever column you want but if you want to keep them paired with your samples don't forget to add <i>\"..._(phase)\"</i> after its name. (example: <i>\"Rock type\"</i> become <i>\"Rock type_cpx\"</i>)",
   "warning": "Warning",
   "decimalsInstructions": "Decimals must be separated using period/full-stop (.) and not comma (,)",
   "specialCharacInstructions": "Pay attention to remove all special characters or misplaced spaces (eg.: before values as <i>\"_32.4\"</i> instead of <i>\"32.4\"</i>)",
