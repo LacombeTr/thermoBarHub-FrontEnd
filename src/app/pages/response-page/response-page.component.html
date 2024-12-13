@@ -1,0 +1,15 @@
+<div class="flex flex-col min-h-screen items-center justify-center pt-32 m-8 mt-0">
+
+  <div id="calculationsResults" class="grid grid-row-2 gap-4 my-4 px-16 py-12 bg-white w-11/12 rounded-sm border-[1px] border-neutral-200 shadow-md">
+
+    <div class="flex flex-col items-center justify-center pl-16 pr-24">
+      <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'resultCalc' | translate}}</h4>
+      <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'hereIsData' | translate}}</h3>
+      <p class="py-2 font-light text-neutral-400">{{ 'downloadYouResults' | translate }}</p>
+<!--      TODO: Add download button-->
+    </div>
+
+    <app-data-visualiser [dataColumns]="dataColumns" [dataList]="dataList"></app-data-visualiser>
+
+  </div>
+</div>
