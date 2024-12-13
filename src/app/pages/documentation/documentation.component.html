@@ -1,24 +1,57 @@
 <div class="flex flex-col items-center w-screen z-10">
 
     <div class="flex flex-col w-[75vw] mt-32 my-4 px-16 py-16 bg-white rounded-sm border-[1px] border-neutral-200 shadow-md">
-        <h3 class="mb-6 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-800 bg-clip-text text-transparent">{{ 'importDataDoc' | translate }}</h3>
+        <h3>{{ 'importDataDoc' | translate }}</h3>
 
         <div class="text-neutral-600">
             <p>{{ 'importUsingFormat' | translate }}</p>
 
             <p>{{ 'downloadBelow' | translate }}</p>
-            <ul class="px-8 my-4 list-['-'] ">
-                <li class="pl-2"><p>{{ 'olivine' | translate }} - {{ 'liquid' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'feldspar' | translate }} - {{ 'liquid' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'alkali' | translate }} {{ 'feldspar' | translate }} - {{ 'plagioclase' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'clinopyroxene' | translate }} - {{ 'liquid' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'clinopyroxene' | translate }} - {{ 'only' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'orthopyroxene' | translate }} - {{ 'liquid' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'orthopyroxene' | translate }} - {{ 'only' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'orthopyroxene' | translate }} - {{ 'clinopyroxene' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'amphibole' | translate }} - {{ 'liquid' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'amphibole' | translate }} - {{ 'only' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
-                <li class="pl-2"><p>{{ 'amphibole' | translate }} - {{ 'plagioclase' | translate }} : <a class="text-amber-700 underline font-medium" href="/">{{ 'here' | translate}}</a></p></li>
+            <ul class="px-8 my-4 list-['-']">
+
+                <li class="pl-2">
+                  <p>{{ 'olivine' | translate }} - {{ 'liquid' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'feldspar' | translate }} - {{ 'liquid' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'alkali' | translate }} {{ 'feldspar' | translate }} - {{ 'plagioclase' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'clinopyroxene' | translate }} - {{ 'liquid' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'clinopyroxene' | translate }} - {{ 'only' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'orthopyroxene' | translate }} - {{ 'liquid' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'orthopyroxene' | translate }} - {{ 'only' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'orthopyroxene' | translate }} - {{ 'clinopyroxene' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'amphibole' | translate }} - {{ 'liquid' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'amphibole' | translate }} - {{ 'only' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
+
+                <li class="pl-2">
+                  <p>{{ 'amphibole' | translate }} - {{ 'plagioclase' | translate }} : <a class="linkSheets" href="/">{{ 'here' | translate}}</a></p>
+                </li>
             </ul>
 
             <p class="">{{ 'templatePresentation' | translate}}</p>
@@ -27,14 +60,18 @@
                 <li class="pl-2" [innerHTML]="'templateSampleNames' | translate"></li>
             </ul>
             <p [innerHTML]="'templateAnyColumns' | translate "></p>
-            <p class="w-full text-center font-bold text-lg mt-4"><i class="fa-solid fa-triangle-exclamation mx-4"></i> {{ 'warning' | translate}} <i class="fa-solid fa-triangle-exclamation mx-4"></i></p>
+            <p class="w-full text-center font-bold text-lg mt-4">
+              <i class="fa-solid fa-triangle-exclamation mx-4"></i>
+                {{ 'warning' | translate}}
+              <i class="fa-solid fa-triangle-exclamation mx-4"></i>
+            </p>
             <p class="w-full text-center mt-2 underline font-semibold">{{ 'decimalsInstructions' | translate}}</p>
             <p class="w-full text-center mt-2 underline font-semibold" [innerHTML]="'specialCharacInstructions' | translate"></p>
         </div>
     </div>
 
     <div class="flex flex-col w-[75vw] my-4 px-16 py-16 bg-white rounded-sm border-[1px] border-neutral-200 shadow-md">
-        <h3 class="my-6 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-800 bg-clip-text text-transparent">{{ 'FAQ' | translate}}</h3>
+        <h3>{{ 'FAQ' | translate}}</h3>
         <a><app-collapsible [cardTitle]="'dataUse' | translate" [cardBody]="'dataPolitic' | translate"></app-collapsible></a>
 
         <app-collapsible [cardTitle]="'stayFree' | translate" [cardBody]="'yesStayFree' | translate"></app-collapsible>
