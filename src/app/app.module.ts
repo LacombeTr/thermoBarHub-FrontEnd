@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
 import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,7 @@ import { ElementDressingPipe } from './pipes/element-dressing/element-dressing.p
 import { CreditsComponent } from './UI/credits/credits.component';
 import { DocumentationComponent } from './pages/documentation/documentation.component';
 import { CollapsibleComponent } from './UI/collapsible/collapsible.component';
+import {DataVisualiserComponent} from "./UI/data-visualiser/data-visualiser.component";
 
 @NgModule({
   declarations: [
@@ -37,8 +38,27 @@ import { CollapsibleComponent } from './UI/collapsible/collapsible.component';
     DocumentationComponent,
     CollapsibleComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule, CommonModule],
+    imports: [
+      BrowserModule,
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      }),
+      AppRoutingModule,
+      ReactiveFormsModule,
+      FormsModule,
+      CommonModule,
+      DataVisualiserComponent
+    ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {}
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './i18n/', '.json');
+}

@@ -7,3 +7,36 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+select{
+  margin-top: 8px;
+  margin-bottom: 16px
+}
+
+h1{
+  @apply text-6xl font-bold bg-gradient-to-b from-amber-600 to-amber-800 bg-clip-text text-transparent
+}
+
+h3{
+  @apply mb-6 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-800 bg-clip-text text-transparent
+}
+
+.smallCards{
+  @apply flex flex-col justify-center border-l-[1px] border-l-neutral-300 py-1 pl-3 w-48
+}
+
+.linkSheets{
+  @apply text-amber-700 underline font-medium
+}
+
+.buttonGradient{
+  @apply w-36 h-10 rounded-xl bg-gradient-to-b from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-neutral-200 text-lg
+}
+
+.gradientText{
+  @apply bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent
+}
+
+.inglets{
+  @apply flex flex-col items-center px-3 text-xl after:duration-200 after:bg-amber-700 after:h-[2px] after:w-[0%] hover:after:w-[100%]
+}

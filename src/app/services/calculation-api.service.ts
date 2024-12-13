@@ -8,7 +8,7 @@ import { calculationParameters } from "../models";
 })
 
 export class postParameters {
-  private apiURL = 'http://127.0.0.1:8000/api/calculate';
+  private apiURL = 'http://127.0.0.1:8000/api/thermobarometry';
 
   constructor(private http: HttpClient) {}
 

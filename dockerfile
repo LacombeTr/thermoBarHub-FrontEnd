@@ -10,11 +10,18 @@ COPY package*.json ./
 # Installer les dépendances (node_modules)
 RUN npm install
 
+# Étape 4 : Installer Sass et PostCSS globalement (si nécessaire)
+RUN npm install -g sass postcss-cli autoprefixer
+
+# Étape 5 : Copier le script de surveillance
+COPY watch-and-compile.sh /usr/local/bin/watch-and-compile.sh
+RUN chmod +x /usr/local/bin/watch-and-compile.sh
+
 # Copier tout le reste du projet dans le conteneur
 COPY . .
 
 # Exposer le port 4200 pour l'accès à Angular via localhost
 EXPOSE 4200
 
-# Commande pour démarrer le serveur Angular
-CMD ["npm", "run", "start"]
+# Étape 7 : Commande par défaut pour lancer le watcher et Angular
+CMD ["sh", "-c", "/usr/local/bin/watch-and-compile.sh & npm start"]

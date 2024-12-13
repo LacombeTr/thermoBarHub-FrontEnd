@@ -1,15 +1,15 @@
 <div class="relative p-36">
-    <form class="flex flex-col" [formGroup]="submitCompo" (ngSubmit)="submitCompos()">
+    <form class="flex flex-col" [formGroup]="submitCompo" (ngSubmit)="postCompos()">
         <div class="flex flex-col min-h-screen items-center justify-center pt-32 m-8 mt-0">
 
             <!-- Step 1a - Phase selection -->
             <div id="step1" class="grid grid-cols-2 gap-4 min-h-[50vh] my-4 px-4 py-16 bg-white w-[90vw] rounded-sm border-[1px] border-neutral-200 shadow-md">
 
                 <div class="flex flex-col justify-center pl-16 pr-24">
-                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Step 1</h4>
-                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Choose an equation</h3>
-                    <p class="py-2 font-light text-neutral-400 border-b-[1px] border-neutral-300">Select the equation(s) you want to use, if you want to perform iterative thermobarometry calculations check the "Iterative Thermobarometry" box, You will be asked then to select two equations.</p>
-                    <p class="py-2 font-extralight italic text-neutral-400">Example: Here we select Equation 27a from <a href="https://pubs.geoscienceworld.org/msa/rimg/article-abstract/69/1/61/289085/Thermometers-and-Barometers-for-Volcanic-Systems"  target="_blank" class="text-amber-700 underline font-medium">Putirka (2008)</a> which is a thermometer.</p>
+                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'step' | translate }} 1</h4>
+                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ "chooseEq" | translate}}</h3>
+                    <p class="py-2 font-light text-neutral-400 border-b-[1px] border-neutral-300">{{ 'eqInstructions' | translate }}</p>
+                    <p class="py-2 font-extralight italic text-neutral-400">{{ 'exEq1' | translate}}<a href="https://pubs.geoscienceworld.org/msa/rimg/article-abstract/69/1/61/289085/Thermometers-and-Barometers-for-Volcanic-Systems"  target="_blank" class="text-amber-700 underline font-medium">Putirka (2008)</a> {{ 'exEq2' | translate}}</p>
                 </div>
 
                 <div class="flex flex-col justify-around items-center">
@@ -17,7 +17,7 @@
                         <option value="">Select a system</option>
                         <option value="Cpx">Clinopyroxene</option>
                         <option value="Opx">Orthopyroxene</option>
-                        <option value="Amph">Amphibole</option>
+                        <option value="Amp">Amphibole</option>
                         <option value="Plag">Plagioclase</option>
                         <option value="Kspar">Alkali feldspar</option>
                         <option value="Ol">Olivine</option>
@@ -33,23 +33,59 @@
                     <!-- Step 1c - Equation selection -->
 
                     <select *ngIf="!iterative" class="form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)" required>
-                        <option *ngIf="system === ''" value="">Please select a system</option>
-                        <option *ngIf="system !== ''" value="">Choose an equation</option>
-                        <option *ngFor="let equation of eqListPT " value="{{equation.equationNumber}}">{{equation.name}}</option>
+                        <option *ngIf="system === ''" value="">{{ 'selectSystem' | translate }}</option>
+                        <option *ngIf="system !== ''" value="">{{ 'chooseEq' | translate }}</option>
+                        <option *ngFor="let equation of eqListPT " value="{{equation.equationNumber}}">
+                          <ng-container *ngFor="let phase of equation.phases"> {{phase}} </ng-container> - {{equation.name}}
+                        </option>
                     </select>
 
                     <div *ngIf="iterative" class="flex flex-col">
                         <select class="mb-2 form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)">
-                            <option *ngIf="system === ''" value="">Please select a system</option>
-                            <option *ngIf="system !== ''" value="">Choose an equation for T</option>
-                            <option *ngFor="let equation of eqListT" value="{{equation.equationNumber}}">{{equation.name}}</option>
+                            <option *ngIf="system === ''" value="">{{ 'selectSystem' | translate }}</option>
+                            <option *ngIf="system !== ''" value="">{{ 'chooseEq' | translate }} {{ 'forT' | translate }}</option>
+                            <option *ngFor="let equation of eqListT" value="{{equation.equationNumber}}">
+                              <ng-container *ngFor="let phase of equation.phases"> {{phase}} </ng-container> - {{equation.name}}
+                            </option>
                         </select>
 
                         <select class="form-select text-neutral-700 outline-none border-t-transparent border-x-transparent border-b-amber-600 border-b-[2px] focus:ring-transparent focus-within:border-b-amber-600 focus-within:border-x-transparent focus-within:border-t-transparent" (change)="selectEquation($event)">
-                            <option *ngIf="system === ''" value="">Please select a system</option>
-                            <option *ngIf="system !== ''" value="">Choose an equation for P</option>
-                            <option *ngFor="let equation of eqListP" value="{{equation.equationNumber}}">{{equation.name}}</option>
+                            <option *ngIf="system === ''" value="">{{ 'selectSystem' | translate }}</option>
+                            <option *ngIf="system !== ''" value="">{{ 'chooseEq' | translate }} {{ 'forP' | translate }}</option>
+                            <option *ngFor="let equation of eqListP" value="{{equation.equationNumber}}">
+                              <ng-container *ngFor="let phase of equation.phases"> {{phase}} </ng-container> - {{equation.name}}
+                            </option>
                         </select>
+                    </div>
+
+                    <div>
+                      <h3 class="pt-2 pb-4 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'calculationSummary' | translate}}</h3>
+                      <p class="ml-8">
+                        <span class="font-semibold">Phases:</span>
+                        <span *ngIf="!phases"> - </span>
+                        <span *ngFor="let phase of phases; let i = index" class="italic">
+                          <ng-container> {{ phase }} </ng-container>
+                          <ng-container *ngIf="i < phases.length - 1 "> - </ng-container>
+                        </span>
+                      </p>
+
+                      <div class="ml-8">
+                        <p class="font-semibold">{{ 'iterative' | translate }}:<span>{{iterative}}</span> </p>
+                      </div>
+
+                      <div class="ml-8">
+                        <p class="font-semibold">{{ 'equations' | translate }}:</p>
+                        <ul *ngIf="equationT || equationP" class="ml-4 italic">
+                          <li *ngIf="equationT">
+                            <ng-container> {{ 'equation' | translate }} T: {{equationT}} </ng-container>
+                          </li>
+
+                          <li *ngIf="equationP">
+                            <ng-container> {{ 'equation' | translate }} P: {{equationP}} </ng-container>
+                          </li>
+                        </ul>
+                      </div>
+
                     </div>
                 </div>
             </div>
@@ -58,25 +94,25 @@
             <div id="step2" class="grid grid-cols-2 gap-4 min-h-[50vh] my-4 px-4 py-16 bg-white w-[90vw] rounded-sm border-[1px] border-neutral-200 shadow-md">
 
                 <div class="flex flex-col justify-center pl-16 pr-24">
-                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Step 2</h4>
-                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">P - T - H₂O conditions</h3>
-                    <p class="py-2 font-light text-neutral-400 border-b-[1px] border-neutral-300">If needed, enter the pressure (P in kbar) and/or the temperature (T in K) and/or the water content of the melt (H₂O in wt.%).</p>
-                    <p class="py-2 font-extralight italic text-neutral-400">Example: The Equation 27a from <a href="https://pubs.geoscienceworld.org/msa/rimg/article-abstract/69/1/61/289085/Thermometers-and-Barometers-for-Volcanic-Systems"  target="_blank" class="text-amber-700 underline font-medium">Putirka (2008)</a> requires the user to provide a fixed pressure.</p>
+                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'step' | translate }} 2</h4>
+                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{'pTH2OConditions' | translate}}</h3>
+                    <p class="py-2 font-light text-neutral-400 border-b-[1px] border-neutral-300">{{ 'conditionsInstructions' | translate }}</p>
+                    <p class="py-2 font-extralight italic text-neutral-400">{{ 'exCond1' | translate }}<a href="https://pubs.geoscienceworld.org/msa/rimg/article-abstract/69/1/61/289085/Thermometers-and-Barometers-for-Volcanic-Systems"  target="_blank" class="text-amber-700 underline font-medium">Putirka (2008)</a> {{ 'exCond2' | translate }}</p>
                 </div>
 
                 <div class="flex flex-col justify-around py-16 items-center">
                     <div class="flex flex-col items-center">
-                        <label class="my-4 text-lg font-light text-neutral-400">Pressure (in kbar)</label>
+                        <label class="my-4 text-lg font-light text-neutral-400">{{ 'pressureIn' | translate }}</label>
                         <input (change)="getPressure($event)" type='number' id="pressure" name="pressure" placeholder="in kbar" class="h-7 w-32 px-2 outline-none my-1 border-[1px] rounded-sm focus-within:border-amber-600 hover:border-amber-600 bg-neutral-100 focus:ring-transparent disabled:border-neutral-300 disabled:hover:border-neutral-300 disabled:bg-neutral-100 disabled:placeholder:text-neutral-300" [disabled]="pDisabled">
                     </div>
 
                     <div class="flex flex-col items-center">
-                        <label class="my-4 text-lg font-light text-neutral-400">Temperature (in K)</label>
+                        <label class="my-4 text-lg font-light text-neutral-400">{{ 'temperatureIn' | translate }}</label>
                         <input (change)="getTemperature($event)" type='number' id="temperature" name="temperature" placeholder="in K" class="h-7 w-32 px-2 outline-none my-1 border-[1px] rounded-sm focus-within:border-amber-600 hover:border-amber-600 bg-neutral-100 focus:ring-transparent disabled:border-neutral-300 disabled:hover:border-neutral-300 disabled:bg-neutral-100 disabled:placeholder:text-neutral-300" [disabled]="tDisabled">
                     </div>
 
                     <div class="flex flex-col items-center">
-                        <label class="my-4 text-lg font-light text-neutral-400">H₂O<sub>melt</sub> (in wt.%)</label>
+                        <label class="my-4 text-lg font-light text-neutral-400" [innerHTML]="'h2oIn' | translate"></label>
                         <input (change)="getH2O($event)" type='number' id="h2o" name="h2o" placeholder="in wt.%" class="h-7 w-32 px-2 outline-none my-1 border-[1px] rounded-sm focus-within:border-amber-600 hover:border-amber-600 bg-neutral-100 focus:ring-transparent disabled:border-neutral-300 disabled:hover:border-neutral-300 disabled:bg-neutral-100 disabled:placeholder:text-neutral-300" [disabled]="h2oDisabled">
                     </div>
                 </div>
@@ -87,53 +123,37 @@
             <div id="step3" class="grid grid-cols-2 gap-4 my-4 px-4 py-16 bg-white w-[90vw] rounded-sm border-[1px] border-neutral-200 shadow-md">
 
                 <div class="flex flex-col justify-center pl-16 pr-24">
-                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Step 3</h4>
-                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Enter the required compositions</h3>
-                    <p class="py-2 font-light text-neutral-400">Depending on the equation you choose, enter the compositions of the required phases.</p>
-                    <p class="py-2 font-light text-neutral-400">You can enter data both manually (calculations for a single analysis) or by uploading an Excel spreadsheet.</p>
-                    <p class="py-2 font-light text-neutral-400 border-b-[1px] border-neutral-300"> <i class="fa-solid fa-triangle-exclamation"></i> If you choose to upload your data as an Excel spreasheet, this spreadsheet <u>must</u> follow the templates provided in the documentation (see <a class="text-amber-700 underline font-medium" routerLink="/documentation">"Documentation: Import your own data for calculation"</a>). <i class="fa-solid fa-triangle-exclamation"></i></p>
-                    <p class="py-2 font-extralight italic text-neutral-400">Example: The Equation 27a from <a href="https://pubs.geoscienceworld.org/msa/rimg/article-abstract/69/1/61/289085/Thermometers-and-Barometers-for-Volcanic-Systems"  target="_blank" class="text-amber-700 underline font-medium">Putirka (2008)</a> is a two feldspar thermometer. You will be prompted to enter the composition of the two felsdpars</p>
+                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'step' | translate}} 3</h4>
+                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'reqCompos' | translate }}</h3>
+                    <p class="py-2 font-light text-neutral-400">{{ 'compoInstructions1' | translate}}</p>
+                    <p class="py-2 font-light text-neutral-400">{{ 'compoInstructions2' | translate}}</p>
+                    <p class="py-2 font-light text-neutral-400 border-b-[1px] border-neutral-300" [innerHTML]="'compoInstructions3' | translate "></p>
+                    <p class="py-2 font-extralight italic text-neutral-400">{{ 'exCompos1' | translate}}<a href="https://pubs.geoscienceworld.org/msa/rimg/article-abstract/69/1/61/289085/Thermometers-and-Barometers-for-Volcanic-Systems"  target="_blank" class="text-amber-700 underline font-medium">Putirka (2008)</a>{{ 'exCompos2' | translate}}</p>
                 </div>
 
                 <div class="flex flex-col items-center justify-center">
-                    <label class="my-4 text-lg font-light text-neutral-400">Upload a compositional file</label>
-                    <input type='file' id="fileInput" name="fileInput" class="mr-4 file:mr-4 file:px-4 file:-mx-2 file:rounded-lg file:bg-gradient-to-b file:border-none file:from-amber-600 file:to-amber-800 file:hover:from-amber-500 file:hover:to-amber-700 file:text-neutral-100 file:text-lg file:shadow-md text-neutral-400" (change)="prepareXslx($event)">
+                    <label class="my-4 text-lg font-light text-neutral-400">{{ 'uploadCompos' | translate}}</label>
+                    <input type='file' id="fileInput" name="fileInput" class="mr-4 file:mr-4 file:px-4 file:-mx-2 file:rounded-lg file:bg-gradient-to-b file:border-none file:from-amber-600 file:to-amber-800 file:hover:from-amber-500 file:hover:to-amber-700 file:text-neutral-100 file:text-lg file:shadow-md text-neutral-400" (change)="handleFileChange($event)">
                 </div>
             </div>
-
 
             <!-- Step 4 - data visualization -->
 
             <div id="step4" class="grid grid-row-2 gap-4 my-4 px-4 py-16 bg-white w-[90vw] rounded-sm border-[1px] border-neutral-200 shadow-md">
 
                 <div class="flex flex-col items-center justify-center pl-16 pr-24">
-                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Step 4</h4>
-                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">Check your data</h3>
-                    <p class="py-2 font-light text-neutral-400">Please verify that your data are as you expect them to be.</p>
+                    <h4 class="text-xl italic bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'step' | translate }} 4</h4>
+                    <h3 class="py-2 text-2xl font-bold uppercase bg-gradient-to-b from-amber-600 to-amber-700 bg-clip-text text-transparent">{{ 'checkData1' | translate }}</h3>
+                    <p class="py-2 font-light text-neutral-400">{{ 'checkData2' | translate }}</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center">
-                    <div class="h-[50vw] max-sm:h-[50vh] w-[95%] p-8 bg-neutral-50 rounded-md shadow-inner overflow-hidden">
-                        <div class="h-full w-full overflow-scroll">
-                            <div id="titles" [ngStyle]="{'display': 'grid', 'grid-template-columns': 'repeat(' + dataColumns.length + ', 200px)'}">
-                                <p *ngFor="let col of dataColumns" class="flex items-center justify-center px-4 pb-2 border-b-[1px] border-neutral-300 font-semibold text-neutral-600 text-center sticky">
-                                  {{col}}
-                                </p>
-                            </div>
+              <app-data-visualiser [dataColumns]="dataColumns" [dataList]="dataList"></app-data-visualiser>
 
-                            <div id="content" *ngFor="let row of dataList" [ngStyle]="{'display': 'grid', 'grid-template-columns': 'repeat(' + dataColumns.length + ', 200px)'}">
-                                <p class="flex items-center justify-center  px-4 py-2 border-b-[1px] border-neutral-200 text-neutral-600 text-center overflow-hidden" *ngFor="let value of objectKeys(row)" >
-                                  {{ roundDictValues(row[value]) }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Step 5 - Sending data to BackEnd -->
 
-            <button type="submit" class= "w-auto my-8 py-2 px-8 rounded-lg bg-gradient-to-b from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-neutral-100 font-light text-2xl shadow-md">Send for calculations</button>
+            <button type="submit" class= "w-auto my-8 py-2 px-8 rounded-lg bg-gradient-to-b from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-neutral-100 font-light text-2xl shadow-md">{{ 'sendForCalc' | translate }}</button>
         </div>
     </form>
 </div>

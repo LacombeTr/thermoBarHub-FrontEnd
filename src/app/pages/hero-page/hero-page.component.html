@@ -1,12 +1,15 @@
 <div class="relative">
     <div class="absolute top-0 left-0 flex flex-col items-center justify-center h-screen w-screen z-10">
 
-        <p class="w-[60vw] py-5 text-6xl font-bold text-center mb-9 bg-gradient-to-b from-amber-600 to-amber-800 bg-clip-text text-transparent">Making thermometry and barometry accessible</p>
-        <p class="w-3/6 text-2xl text-center mb-12 text-neutral-800">Based on the ThermoBar python library, ThermoBar-Hub provide an online, code-free, interface for thermobarometry calculations.</p>
+        <h1 class="w-[60%] py-9 text-center">{{ 'accessible' | translate}}</h1>
+        <p class="w-3/6 mb-12 text-2xl text-center text-neutral-800">{{ 'descriptionHERO' | translate}}</p>
 
         <div class="flex w-[25vw] justify-between items-center">
-            <button routerLink="submit" class="w-36 h-10 rounded-xl bg-gradient-to-b from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-neutral-200 text-lg">Get Started</button>
-            <a target="_blank" class="text-neutral-800 hover:text-neutral-500 text-lg" href="https://www.jvolcanica.org/ojs/index.php/volcanica/article/view/161">ThermoBar <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i></a>
+            <button routerLink="submit" class="buttonGradient">{{ 'getStarted' | translate }}</button>
+            <a target="_blank" class="text-neutral-800 hover:text-neutral-500 text-lg"
+               href="https://www.jvolcanica.org/ojs/index.php/volcanica/article/view/161">
+              ThermoBar <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+            </a>
         </div>
 
     </div>
