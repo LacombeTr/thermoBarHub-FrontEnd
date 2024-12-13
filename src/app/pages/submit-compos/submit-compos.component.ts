@@ -3,12 +3,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 
-import * as XLSX from 'xlsx';
-
 import { postParameters} from '../../services/calculation-api.service';
 import {equationList, equationStruct} from '../../data/equations';
 import { excelData, calculationParameters } from "../../models";
-import {objectKeys, roundDictValues} from "../../utils/utils";
+import {prepareXslx, roundDictValues} from "../../utils/utils";
 
 @Component({
   selector: 'app-submit-compos',
@@ -121,6 +119,10 @@ export class SubmitComposComponent implements OnInit {
     this.iterative = targetElem.checked;
   }
 
+  /**
+   * Allow to select the equation(s) for calculation
+   * @param event
+   */
   selectEquation(event: any) {
 
     this.resetFields();
@@ -179,6 +181,9 @@ export class SubmitComposComponent implements OnInit {
     }
   }
 
+  /**
+   * Reset P, T and H2O field when changing the equation
+   */
   resetFields(){
     let temperatureField = document.getElementById("temperature") as HTMLInputElement;
     let pressureField = document.getElementById("pressure") as HTMLInputElement;
@@ -195,34 +200,48 @@ export class SubmitComposComponent implements OnInit {
 
   }
 
+  /**
+   * Get the temperature from the input and set the value of the "temperature" variable
+   * @param event
+   */
   getTemperature(event: Event) {
     let targetElem = event.target as HTMLInputElement;
     this.temperature = +targetElem.value;
   }
 
+  /**
+   * Get the pressure from the input and set the value of the "pressure" variable
+   * @param event
+   */
   getPressure(event: Event) {
     let targetElem = event.target as HTMLInputElement;
     this.pressure = +targetElem.value;
   }
 
+  /**
+   * Get the H2O content from the input and set the value of the "H2O" variable
+   * @param event
+   */
   getH2O(event: Event) {
     let targetElem = event.target as HTMLInputElement;
     this.h2o = +targetElem.value;
   }
 
-  prepareXslx(event: any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      const file = XLSX.read(e.target.result, { type: 'binary' });
-      const firstSheet = file.SheetNames[0];
-      const worksheet = file.Sheets[firstSheet];
-      this.excelData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-      this.dataColumns = Object.keys(this.excelData[0]);
-      this.dataList = this.excelData;
-    };
-    reader.readAsArrayBuffer(file);
+  /**
+   * Used to call the async function prepareXslx from "utils" used to convert
+   * the uploaded Excel file to an array of dictionary
+   * @param event
+   */
+  handleFileChange(event: any): void {
+    prepareXslx(event)
+      .then((result) => {
+        this.excelData = result.excelData;
+        this.dataColumns = result.dataColumns;
+        this.dataList = this.excelData;
+      })
+      .catch((error) => {
+        console.error('Error reading Excel file:', error);
+      });
   }
 
   postCompos() {
@@ -260,7 +279,4 @@ export class SubmitComposComponent implements OnInit {
       }
     );
   }
-
-  protected readonly Object = Object;
-  protected readonly objectKeys = objectKeys;
 }

@@ -133,7 +133,7 @@
 
                 <div class="flex flex-col items-center justify-center">
                     <label class="my-4 text-lg font-light text-neutral-400">{{ 'uploadCompos' | translate}}</label>
-                    <input type='file' id="fileInput" name="fileInput" class="mr-4 file:mr-4 file:px-4 file:-mx-2 file:rounded-lg file:bg-gradient-to-b file:border-none file:from-amber-600 file:to-amber-800 file:hover:from-amber-500 file:hover:to-amber-700 file:text-neutral-100 file:text-lg file:shadow-md text-neutral-400" (change)="prepareXslx($event)">
+                    <input type='file' id="fileInput" name="fileInput" class="mr-4 file:mr-4 file:px-4 file:-mx-2 file:rounded-lg file:bg-gradient-to-b file:border-none file:from-amber-600 file:to-amber-800 file:hover:from-amber-500 file:hover:to-amber-700 file:text-neutral-100 file:text-lg file:shadow-md text-neutral-400" (change)="handleFileChange($event)">
                 </div>
             </div>
 

@@ -34,7 +34,5 @@ export class ResponsePageComponent implements OnInit {
     console.log(typeof this.dataList);
   }
 
-  protected roundDictValues = roundDictValues;
-  protected readonly objectKeys = objectKeys;
   protected readonly data = data;
 }
