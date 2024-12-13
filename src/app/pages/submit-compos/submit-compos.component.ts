@@ -15,7 +15,6 @@ import {prepareXslx, roundDictValues} from "../../utils/utils";
 
 export class SubmitComposComponent implements OnInit {
 
-  // Arguments of the request sent for the calculations
   iterative: boolean = false;
   system: string = '';
   phases!: string[];
@@ -29,20 +28,11 @@ export class SubmitComposComponent implements OnInit {
   h2o!: number;
   excelData!: excelData[];
 
-  /**
-   * @param equations whole list of available equations
-   * @param eqListPT equations requiring iterations between P and T
-   * @param eqListP equations requiring only P
-   * @param eqListT equations requiring only T
-   */
   equations: equationStruct[] = equationList;
   eqListPT: any;
   eqListP: any;
   eqListT: any;
 
-  /**
-   * Fields state from step2
-   */
   pDisabled: boolean = true;
   tDisabled: boolean = true;
   h2oDisabled: boolean = true;
@@ -244,6 +234,9 @@ export class SubmitComposComponent implements OnInit {
       });
   }
 
+  /**
+   * Send the inputCalc object to the back for calculations then catch the response and redirect on the response page
+   */
   postCompos() {
     this.inputCalc = {
       iterative: this.iterative,
@@ -263,15 +256,12 @@ export class SubmitComposComponent implements OnInit {
     this.postParameters.createInputCalc(this.inputCalc).subscribe(
       {
         next: (data) =>
-              {
-                this.router.navigate(['/thermobarometry-response'],
-                  {
-                    state: {
-                      calculationResponse: data
-                    }
-                  }
-                )
-              },
+        {
+          this.router.navigate(
+            ['/thermobarometry-response'],
+            { state: { calculationResponse: data }}
+          )
+        },
 
         error: (error) => console.error('There was an error!', error),
 
